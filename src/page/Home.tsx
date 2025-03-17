@@ -9,8 +9,16 @@ import { useSearch } from '../hooks/useSearch'
 
 const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedSites, setSelectedSites] = useState(['잡코리아', '사람인', '잡플래닛'])
-  const [suggestions] = useState(['프론트엔드 개발', '백엔드 개발'])
+  const [selectedSites, setSelectedSites] = useState([
+    '잡코리아',
+    '사람인',
+    '잡플래닛',
+  ])
+  const [suggestions] = useState([
+    '프론트엔드 개발',
+    '백엔드 개발',
+    'AI 딥러닝',
+  ])
   const { loading, error, results, search } = useSearch()
 
   const handleSearch = () => {
@@ -31,13 +39,22 @@ const Home: React.FC = () => {
           setSearchQuery={setSearchQuery}
           onSearch={handleSearch}
         />
-        <KeywordSuggestions suggestions={suggestions} onSelectSuggestion={handleKeywordSelect} />
-        <CheckboxGroup selectedSites={selectedSites} setSelectedSites={setSelectedSites} />
+        <KeywordSuggestions
+          suggestions={suggestions}
+          onSelectSuggestion={handleKeywordSelect}
+        />
+        <CheckboxGroup
+          selectedSites={selectedSites}
+          setSelectedSites={setSelectedSites}
+        />
         {loading && <p className="text-center mt-4">검색 중...</p>}
         {error && <p className="text-center mt-4 text-red-500">{error}</p>}
         {!loading && !error && Object.keys(results).length > 0 && (
           <SearchResults
-            totalCount={Object.values(results).reduce((acc, cur) => acc + cur.count, 0)}
+            totalCount={Object.values(results).reduce(
+              (acc, cur) => acc + cur.count,
+              0
+            )}
             resultsBySite={results}
           />
         )}
